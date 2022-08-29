@@ -5,6 +5,7 @@ Property trading gaming where winner takes all,
 """
 from player import Player
 import constant
+import click
 
 class Reaperopoly(object):
     name = "Reaperopoly"
@@ -17,15 +18,22 @@ class Reaperopoly(object):
         return 'Reaperopoly(' + self.name +')'
     
     def setup(self):
+
         # TODO: Game Setup - ask # of players, rules options, etc..
         while self.num_players < 1 or self.num_players > constant.MAX_PLAYERS:
-            self.num_players = input('''
+            playerCountInput = input('''
 Enter the number of players for the game
             ''')
 
-            if self.num_players > constant.MAX_PLAYERS:
+            try:
+                playerCount = int(playerCountInput)
+                if playerCount > constant.MAX_PLAYERS:
+                    print('Please enter a number between %s and %s' % (constant.MIN_PLAYERS, constant.MAX_PLAYERS))
+                    continue
+                else:
+                    self.num_players = playerCount
+            except ValueError:
                 print('Please enter a number between ' + str(constant.MIN_PLAYERS) + ' and ' + str(constant.MAX_PLAYERS))
-                continue
 
 game = Reaperopoly("Reaperopoly Game 1")
 game.setup()
@@ -44,3 +52,4 @@ for player in players:
     player.printPlayer()
     player.addWallet(200.00)
     print(player)
+
